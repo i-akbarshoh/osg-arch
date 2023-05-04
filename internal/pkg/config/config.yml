@@ -1,0 +1,17 @@
+postgres:
+  user: postgres
+  password: 1
+  host: localhost
+  port: 5432
+  dbname: osg-arch
+server:
+  port: 8080
+  host: localhost
+migration_path: internal/pkg/migration
+config_path: internal/middleware/config/config.conf
+casbin_roles_path: internal/middleware/config/models.csv
+signing_key: "secret"
+environment: develop
+access_expire: 24
+refresh_expire: 48
+refresh_key: "refresh"
