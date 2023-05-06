@@ -5,8 +5,7 @@ This task manager is simple crm project for development team
 1. Clone project
 2. Install docker, docker-compose and make
 3. source .env file
-4. Run command `make init_db`
-5. Run command `make compose`
+4. Run command `make compose`
 
 ## To test connection rest api
 ```bash

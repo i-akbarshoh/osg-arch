@@ -25,6 +25,8 @@ WORKDIR /app
 COPY --from=builder /app/main .
 COPY --from=builder /app/internal/pkg/config/* ./internal/pkg/config/
 COPY --from=builder /app/internal/pkg/script/migration/* ./internal/pkg/script/migration/
+COPY --from=builder /app/internal/middleware/config/* ./internal/middleware/
+RUN ls ./internal/middleware && pwd
 
 CMD ["./main"]
 

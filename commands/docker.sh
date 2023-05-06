@@ -5,13 +5,15 @@
 # and push the docker image to docker hub
 
 # Login to docker hub
-docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+# shellcheck disable=SC2086
+docker login -u "$DOCKER_USERNAME" -p $DOCKER_PASSWORD
 
 # Build the docker image
+# shellcheck disable=SC2086
 docker build -t $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG .
 
 # Push the docker image to docker hub
-docker push $DOCKER_USERNAME/$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
+docker push "$DOCKER_USERNAME"/"$DOCKER_IMAGE_NAME":"$DOCKER_IMAGE_TAG"
 
 # Logout from docker hub
 docker logout

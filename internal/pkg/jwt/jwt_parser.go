@@ -4,7 +4,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/gookit/config/v2"
+	"github.com/i-akbarshoh/osg-arch/internal/pkg/config"
 )
 
 type TokenMetadata struct {
@@ -60,5 +60,5 @@ func verifyToken(c *gin.Context) (*jwt.Token, error) {
 }
 
 func jwtKeyFunc(token *jwt.Token) (interface{}, error) {
-	return []byte(config.Data()["signing_key"].(string)), nil
+	return []byte(config.C.JWT.SigningKey), nil
 }

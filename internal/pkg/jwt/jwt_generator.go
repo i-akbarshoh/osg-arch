@@ -4,7 +4,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
-	"github.com/gookit/config/v2"
+	"github.com/i-akbarshoh/osg-arch/internal/pkg/config"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -43,14 +43,14 @@ func generateNewAccessToken(id string, credentials map[string]string) (string, i
 	claims["id"] = id
 	claims["role"] = credentials["role"]
 
-	if config.Data()["environment"].(string) == "develop" {
+	if config.C.Environment == "develop" {
 		claims["expires"] = time.Now().Add(time.Hour * 24 * 31).Unix()
 	} else {
-		claims["expires"] = time.Now().Add(time.Minute * 2 * time.Duration(config.Data()["access_expire"].(int))).Unix()
+		claims["expires"] = time.Now().Add(time.Minute * 2 * time.Duration(config.C.JWT.Expire)).Unix()
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	t, err := token.SignedString([]byte(config.Data()["signing_key"].(string)))
+	t, err := token.SignedString([]byte(config.C.JWT.SigningKey))
 	if err != nil {
 		return "", 0, err
 	}
@@ -61,14 +61,14 @@ func generateNewAccessToken(id string, credentials map[string]string) (string, i
 func generateNewRefreshToken() (string, error) {
 	sha256Hash := sha256.New()
 
-	refresh := config.Data()["refresh_key"].(string) + time.Now().String()
+	refresh := config.C.JWT.RefreshKey + time.Now().String()
 
 	_, err := sha256Hash.Write([]byte(refresh))
 	if err != nil {
 		return "", err
 	}
 
-	expireTime := fmt.Sprint(time.Now().Add(time.Hour * time.Duration(config.Data()["refresh_expire"].(int))).Unix())
+	expireTime := fmt.Sprint(time.Now().Add(time.Hour * time.Duration(config.C.JWT.RExpire)).Unix())
 
 	t := hex.EncodeToString(sha256Hash.Sum(nil)) + "." + expireTime
 

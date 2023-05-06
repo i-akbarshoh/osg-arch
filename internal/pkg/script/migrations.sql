@@ -1,7 +1,3 @@
-CREATE DATABASE IF NOT EXISTS `osg-arch` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-
-\c `osg-arch`
-
 CREATE TYPE role_type AS ENUM ('teamlead', 'programmer', 'intern', '');
 CREATE TYPE position_type AS ENUM ('director', 'admin', 'programmer');
 CREATE TYPE status_type AS ENUM ('new', 'in_process', 'finished');

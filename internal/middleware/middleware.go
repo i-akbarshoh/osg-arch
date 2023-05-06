@@ -4,8 +4,7 @@ import (
 	"github.com/casbin/casbin/v2"
 	_ "github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
-	"github.com/gookit/config/v2"
-	_ "gitlab.com/dotgo13/url-shortner/pkg/config"
+	"github.com/i-akbarshoh/osg-arch/internal/pkg/config"
 	"log"
 	"net/http"
 )
@@ -13,13 +12,13 @@ import (
 func Authorizer() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		accessToken := c.GetHeader("Authorization")
-		enforcer, err := casbin.NewEnforcer(config.Data()["config_path"], config.Data()["casbin_roles_path"])
+		enforcer, err := casbin.NewEnforcer(config.C.Casbin.Model, config.C.Casbin.Policy)
 		if err != nil {
 			log.Fatal("enforcer not initialized, ", err)
 			return
 		}
 
-		claims, err := extractClaims(accessToken, []byte(config.Data()["signing_key"].(string)))
+		claims, err := extractClaims(accessToken, []byte(config.C.JWT.SigningKey))
 		if err != nil {
 			c.JSON(http.StatusBadRequest, map[string]string{
 				"error": err.Error(),

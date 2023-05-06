@@ -7,16 +7,39 @@ type Filter struct {
 }
 
 type Create struct {
-	FirstName string `json:"first_name" form:""`
+	ID        string `json:"id" bun:"id"`
+	FullName  string `json:"full_name" bun:"full_name"`
+	Password  string `json:"password" bun:"password"`
+	Avatar    string `json:"avatar" bun:"avatar"`
+	Role      string `json:"role" bun:"role"`
+	BirthDate string `json:"birth_date" bun:"birth_date"`
+	Phone     string `json:"phone" bun:"phone"`
+	Position  string `json:"position" bun:"position"`
+}
+
+type Get struct {
+	ID        string `json:"id" bun:"id"`
+	FullName  string `json:"full_name" bun:"full_name"`
+	Avatar    string `json:"avatar" bun:"avatar"`
+	Role      string `json:"role" bun:"role"`
+	BirthDate string `json:"birth_date" bun:"birth_date"`
+	Phone     string `json:"phone" bun:"phone"`
+	Position  string `json:"position" bun:"position"`
+}
+
+type List []Get
+
+type Delete struct {
+	Phone    string `json:"phone" bun:"phone"`
+	Password string `json:"password" bun:"password"`
 }
 
 type Update struct {
-}
-
-type List struct {
-	Id        int
-	FirstName string
-}
-
-type Detail struct {
+	ID        string `json:"id" bun:"id"`
+	FullName  string `json:"full_name" bun:"full_name"`
+	Avatar    string `json:"avatar" bun:"avatar"`
+	Role      string `json:"role" bun:"role"`
+	BirthDate string `json:"birth_date" bun:"birth_date"`
+	Phone     string `json:"phone" bun:"phone"`
+	Position  string `json:"position" bun:"position"`
 }

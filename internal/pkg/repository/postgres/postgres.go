@@ -7,7 +7,7 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
-	"github.com/gookit/config/v2"
+	"github.com/i-akbarshoh/osg-arch/internal/pkg/config"
 	_ "github.com/lib/pq"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/pgdialect"
@@ -17,17 +17,19 @@ import (
 )
 
 func NewDB() *bun.DB {
-	pDB, err := sql.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		config.Data()["postgres.host"], config.Data()["postgres.port"], config.Data()["postgres.user"], config.Data()["postgres.password"], config.Data()["postgres.dbname"]))
+	//dsn := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", config.C.Database.User, config.C.Database.Password, config.C.Database.Host, config.C.Database.Port, config.C.Database.DBName)
+	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", config.C.Database.Host, config.C.Database.Port, config.C.Database.User, config.C.Database.Password, config.C.Database.DBName)
+	pDB, err := sql.Open("postgres", dsn)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer pDB.Close()
+	if err := pDB.Ping(); err != nil {
+		log.Fatal(err)
+	}
 
 	db := bun.NewDB(pDB, pgdialect.New())
 	db.AddQueryHook(bundebug.NewQueryHook(bundebug.WithVerbose(true)))
 	migrateUp(db.DB)
-
 	return db
 }
 
@@ -37,9 +39,8 @@ func migrateUp(db *sql.DB) {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	m, err := migrate.NewWithDatabaseInstance(
-		fmt.Sprintf("file://%s", config.Data()[`migration.path`].(string)),
-		config.Data()["postgres.dbname"].(string), driver)
+	m, err := migrate.NewWithDatabaseInstance("file://internal/pkg/script/migration",
+		config.C.Database.DBName, driver)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
