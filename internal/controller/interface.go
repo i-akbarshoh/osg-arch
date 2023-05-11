@@ -8,4 +8,6 @@ type New interface {
 
 type User interface {
 	Register(c *gin.Context)
+	Login(c *gin.Context)
+	List(c *gin.Context)
 }

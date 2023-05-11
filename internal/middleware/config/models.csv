@@ -1,1 +1,3 @@
 p, unauthorized, /register, POST
+p, unauthorized, /login, POST
+p, admin, /list-user, GET

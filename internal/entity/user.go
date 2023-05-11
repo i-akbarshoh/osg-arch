@@ -11,8 +11,13 @@ type User struct {
 	Position  string `json:"position"`
 }
 
-type Attendance struct {
+type UserAttendance struct {
 	Type      string `json:"type"`
 	UserID    string `json:"user_id"`
 	CreatedAt string `json:"created_at"`
+}
+
+type UserList struct {
+	Count int
+	L []User
 }

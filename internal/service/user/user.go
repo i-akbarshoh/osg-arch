@@ -2,8 +2,10 @@ package user
 
 import (
 	"context"
+
 	"github.com/google/uuid"
 	"github.com/i-akbarshoh/osg-arch/internal/pkg/utils"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type service struct {
@@ -36,4 +38,20 @@ func (s *service) Register(ctx context.Context, user Create) (string, error) {
 	}
 
 	return id, err
+}
+
+func (s *service) Login(ctx context.Context, get Get) error {
+	res, err := s.repo.Get(ctx, get.ID)
+	if err != nil {
+		return err
+	}
+	if err := bcrypt.CompareHashAndPassword([]byte(res.Password), []byte(get.Password)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *service) List(ctx context.Context) (List, error) {
+	return s.repo.List(ctx)
 }

@@ -1,3 +1,7 @@
+CREATE DATABASE osg_arch;
+
+\c osg_arch
+
 CREATE TYPE role_type AS ENUM ('teamlead', 'programmer', 'intern', '');
 CREATE TYPE position_type AS ENUM ('director', 'admin', 'programmer');
 CREATE TYPE status_type AS ENUM ('new', 'in_process', 'finished');

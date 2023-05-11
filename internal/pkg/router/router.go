@@ -15,5 +15,7 @@ func New(c controller.New) *gin.Engine {
 		c.JSON(200, "pong")
 	})
 	r.POST("/register", c.Register)
+	r.POST("/login", c.Login)
+	r.GET("/list-user", c.List)
 	return r
 }

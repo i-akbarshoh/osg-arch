@@ -20,6 +20,7 @@ type Create struct {
 type Get struct {
 	ID        string `json:"id" bun:"id"`
 	FullName  string `json:"full_name" bun:"full_name"`
+	Password string `json:"password" bun:"password"`
 	Avatar    string `json:"avatar" bun:"avatar"`
 	Role      string `json:"role" bun:"role"`
 	BirthDate string `json:"birth_date" bun:"birth_date"`
@@ -27,7 +28,10 @@ type Get struct {
 	Position  string `json:"position" bun:"position"`
 }
 
-type List []Get
+type List struct {
+	L []Get
+	Count int
+}
 
 type Delete struct {
 	Phone    string `json:"phone" bun:"phone"`
