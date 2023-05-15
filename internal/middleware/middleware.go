@@ -1,12 +1,13 @@
 package middleware
 
 import (
-	"github.com/casbin/casbin/v2"
-	_ "github.com/casbin/casbin/v2"
-	"github.com/gin-gonic/gin"
-	"github.com/i-akbarshoh/osg-arch/internal/pkg/config"
+	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/casbin/casbin/v2"
+	"github.com/gin-gonic/gin"
+	"github.com/i-akbarshoh/osg-arch/internal/pkg/config"
 )
 
 func Authorizer() gin.HandlerFunc {
@@ -28,7 +29,7 @@ func Authorizer() gin.HandlerFunc {
 		}
 
 		role := claims["role"]
-
+		fmt.Println(role, c.Request.URL.String(), c.Request.Method)
 		ok, err := enforcer.Enforce(role, c.Request.URL.String(), c.Request.Method)
 		if err != nil {
 			log.Println("could not enforce:", err)

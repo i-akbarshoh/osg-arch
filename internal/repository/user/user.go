@@ -3,6 +3,7 @@ package user
 import (
 	"context"
 
+	"github.com/i-akbarshoh/osg-arch/internal/entity"
 	u "github.com/i-akbarshoh/osg-arch/internal/service/user"
 	"github.com/uptrace/bun"
 )
@@ -52,5 +53,22 @@ func (r *repository) List(ctx context.Context) (list u.List, err error) {
 		})
 	}
 
+	return
+}
+
+func (r *repository) Update(ctx context.Context, us u.Update) (err error) {
+	var user entity.User
+	user.ID = us.ID
+	user.Avatar = us.Avatar
+	user.FullName = us.FullName
+	user.Phone = us.Phone
+	user.Position = us.Position
+	user.Role = us.Role
+	_, err = r.db.NewUpdate().Model(&user).WherePK().OmitZero().Exec(ctx)
+	return
+}
+
+func (r *repository) Delete(ctx context.Context, ud u.Delete) (err error) {
+	_, err = r.db.NewDelete().Where("id=? AND password=?", ud.ID, ud.Password).Table("users").Exec(ctx)
 	return
 }

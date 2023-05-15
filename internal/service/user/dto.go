@@ -34,16 +34,15 @@ type List struct {
 }
 
 type Delete struct {
-	Phone    string `json:"phone" bun:"phone"`
+	ID string `bun:"id,pk"`
 	Password string `json:"password" bun:"password"`
 }
 
 type Update struct {
-	ID        string `json:"id" bun:"id"`
+	ID        string `json:"id" bun:"id,pk"`
 	FullName  string `json:"full_name" bun:"full_name"`
 	Avatar    string `json:"avatar" bun:"avatar"`
 	Role      string `json:"role" bun:"role"`
-	BirthDate string `json:"birth_date" bun:"birth_date"`
 	Phone     string `json:"phone" bun:"phone"`
 	Position  string `json:"position" bun:"position"`
 }

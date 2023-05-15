@@ -101,3 +101,60 @@ func (con *Controller) List(c *gin.Context) {
 
 	c.JSON(200, res)
 }
+
+func (con *Controller) Get(c *gin.Context) {
+	id := c.Param("id")
+	ctx := context.Background()
+	res, err := con.useCase.Get(ctx, id)
+	if  err != nil {
+		c.JSON(400, gin.H{
+			"message": "cannot get user, " + err.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, res)
+}
+
+func (con *Controller) Update(c *gin.Context) {
+	var body entity.User
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(400, gin.H{
+			"message": "cannot bind json, " + err.Error(),
+		})
+		return
+	}
+
+	ctx := context.Background()
+	if err := con.useCase.Update(ctx, body); err != nil {
+		c.JSON(400, gin.H{
+			"message": "cannot update user, " + err.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"masseage": "successs",
+	})
+}
+
+func (con *Controller) Delete(c *gin.Context) {
+	var body entity.User
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(400, gin.H{
+			"message": "cannot bind json, " + err.Error(),
+		})
+		return
+	}
+	ctx := context.Background()
+	if err := con.useCase.Delete(ctx, body); err != nil {
+		c.JSON(400, gin.H{
+			"message": "cannot delete user, " + err.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"masseage": "successs",
+	})
+}
