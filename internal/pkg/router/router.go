@@ -25,5 +25,14 @@ func New(u controller.User, p controller.Project) *gin.Engine {
 	r.GET("/list-project", p.List)
 	r.PUT("/update-project", p.Update)
 	r.DELETE("/delete-project/:id", p.Delete)
+	r.PUT("/update-task", p.UpdateTask)
+	r.GET("/get-task/:id", p.GetTask)
+	r.GET("/list-tasks", p.ListTasks)
+	r.DELETE("/delete-task/:id", p.DeleteTask)
+	r.POST("/create-comment", p.CreateComment)
+	r.GET("/list-comments/:id", p.ListComments)
+	r.DELETE("/delete-comment/:id", p.DeleteComment)
+	r.POST("/create-attendance", u.CreateAttendance)
+	r.GET("/list-attendance/:user_id/:type", u.ListAttendance)
 	return r
 }

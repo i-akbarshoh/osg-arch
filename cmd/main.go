@@ -4,6 +4,9 @@ import (
 	"log"
 	"net/http"
 
+	project4 "github.com/i-akbarshoh/osg-arch/internal/controller/project"
+	comment1 "github.com/i-akbarshoh/osg-arch/internal/repository/comment"
+	comment2 "github.com/i-akbarshoh/osg-arch/internal/service/comment"
 	user4 "github.com/i-akbarshoh/osg-arch/internal/controller/user"
 	"github.com/i-akbarshoh/osg-arch/internal/pkg/config"
 	_ "github.com/i-akbarshoh/osg-arch/internal/pkg/config"
@@ -17,7 +20,8 @@ import (
 	user2 "github.com/i-akbarshoh/osg-arch/internal/service/user"
 	project3 "github.com/i-akbarshoh/osg-arch/internal/usecase/project"
 	user3 "github.com/i-akbarshoh/osg-arch/internal/usecase/user"
-	project4 "github.com/i-akbarshoh/osg-arch/internal/controller/project"
+	attendance1 "github.com/i-akbarshoh/osg-arch/internal/repository/attendance"
+	attendance2 "github.com/i-akbarshoh/osg-arch/internal/service/attendance"
 )
 
 func main() {
@@ -31,11 +35,15 @@ func main() {
 	userService := user2.NewService(userRepo)
 	taskRepo := task1.New(db)
 	taskService := task2.New(taskRepo)
-	userUseCase := user3.NewUseCase(userService)
+	attenRepo := attendance1.New(db)
+	attenService := attendance2.New(attenRepo)
+	userUseCase := user3.NewUseCase(userService, attenService)
 	userController := user4.NewController(userUseCase)
 	projectRepo := project.New(db)
 	projectService := project2.New(projectRepo)
-	projectUseCase := project3.New(projectService, taskService)
+	commentRepo := comment1.New(db)
+	commentService := comment2.New(commentRepo)
+	projectUseCase := project3.New(projectService, taskService, commentService)
 	projectController := project4.New(projectUseCase)
 
 	engine := router.New(userController, projectController)

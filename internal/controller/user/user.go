@@ -158,3 +158,38 @@ func (con *Controller) Delete(c *gin.Context) {
 		"masseage": "successs",
 	})
 }
+
+func (con *Controller) CreateAttendance(c *gin.Context) {
+	var body entity.UserAttendance
+	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(400, gin.H{
+			"message": "cannot bind json, " + err.Error(),
+		})
+		return
+	}
+
+	if err := con.useCase.CreateAttendance(context.Background(), body); err != nil {
+		c.JSON(400, gin.H{
+			"message": "cannot create attendance, " + err.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"masseage": "successs",
+	})
+}
+
+func (con *Controller) ListAttendance(c *gin.Context) {
+	user_id := c.Param("user_id")
+	ty := c.Param("type")
+	list, err := con.useCase.ListAttendance(context.Background(), user_id, ty)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"message": "cannot list attendance, " + err.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, list)
+}

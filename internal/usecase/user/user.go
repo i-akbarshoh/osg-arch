@@ -8,12 +8,14 @@ import (
 )
 
 type UseCase struct {
+	a Attendance
 	u User
 }
 
-func NewUseCase(u User) *UseCase {
+func NewUseCase(u User, a Attendance) *UseCase {
 	return &UseCase{
 		u: u,
+		a: a,
 	}
 }
 

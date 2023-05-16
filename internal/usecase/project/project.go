@@ -10,10 +10,11 @@ import (
 type UseCase struct {
 	p Project
 	t Task
+	c Comment
 }
 
-func New(p Project, t Task) *UseCase {
-	return &UseCase{p: p, t: t}
+func New(p Project, t Task, c Comment) *UseCase {
+	return &UseCase{p: p, t: t, c: c}
 }
 
 func (u *UseCase) Create(ctx context.Context,p entity.Project) (int, error) {

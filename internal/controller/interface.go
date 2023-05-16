@@ -14,6 +14,8 @@ type User interface {
 	Get(c *gin.Context)
 	Update(c *gin.Context)
 	Delete(c *gin.Context)
+	CreateAttendance(c *gin.Context)
+	ListAttendance(c *gin.Context)
 }
 
 type Project interface{
@@ -22,4 +24,11 @@ type Project interface{
 	List(c *gin.Context)
 	Update(c *gin.Context)
 	Delete(c *gin.Context)
+	UpdateTask(c *gin.Context)
+	GetTask(c *gin.Context)
+	ListTasks(c *gin.Context)
+	DeleteTask(c *gin.Context)
+	CreateComment(c *gin.Context)
+	ListComments(c *gin.Context)
+	DeleteComment(c *gin.Context)
 }

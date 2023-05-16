@@ -21,3 +21,8 @@ type Comment struct {
 	ProgrammerID string `json:"programmer_id"`
 	CreatedAt    string `json:"created_at"`
 }
+
+type ListTasks struct {
+	Count int `json:"count"`
+	List []Task
+}
